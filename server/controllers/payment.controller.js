@@ -80,6 +80,7 @@ export const createCheckoutSession = async (req, res) => {
       .status(StatusCodes.OK)
       .json({ id: session.id, totalAmount: totalAmount / 100 });
   } catch (error) {
+    console.error("Error creating checkout session:", error);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
       .json({ message: "Internal Server Error" });
