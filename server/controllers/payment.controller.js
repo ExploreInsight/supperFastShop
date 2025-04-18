@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import Coupon from "../models/coupon.model.js";
 import { stripe } from "../lib/stripe.js";
 import Order from "../models/order.model.js";
-import User from '../models/user.model.js';
+import User from "../models/user.model.js";
 
 export const createCheckoutSession = async (req, res) => {
   try {
@@ -46,6 +46,12 @@ export const createCheckoutSession = async (req, res) => {
         );
       }
     }
+
+    console.log(
+      "Success URL:",
+      `${process.env.CLIENT_URL}/purchase-success?session_id={CHECKOUT_SESSION_ID}`
+    );
+    console.log("Cancel URL:", `${process.env.CLIENT_URL}/purchase-cancel`);
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -120,11 +126,11 @@ export const checkoutSuccess = async (req, res) => {
 
       await newOrder.save();
 
-      // clear the cart for the user 
-      await User.findByIdAndUpdate(session.metadata.userId,{
-        $set:{ cartItems:[]}
-      })
-      
+      // clear the cart for the user
+      await User.findByIdAndUpdate(session.metadata.userId, {
+        $set: { cartItems: [] },
+      });
+
       res.status(StatusCodes.OK).json({
         success: true,
         message:
