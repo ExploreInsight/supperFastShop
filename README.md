@@ -1,4 +1,4 @@
-<h1 algin='center'> 🛒 SupperFastShop – Full Stack E-Commerce Platform</h1>
+<h1 align='center'> 🛒 SupperFastShop – Full Stack E-Commerce Platform</h1>
 
 A modern, role-based **E-Commerce Web Application** with authentication, cart management, coupon system, payment integration (Stripe), analytics, and admin controls. Built with **MERN Stack**, Tailwind, Zustand, Stripe, and image handling via **Cloudinary + Sharp**.
 
