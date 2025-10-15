@@ -4,7 +4,7 @@ A modern, role-based **E-Commerce Web Application** with authentication, cart ma
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshot
 
 ![homepage](/client/public/homepage.jpeg)
 
