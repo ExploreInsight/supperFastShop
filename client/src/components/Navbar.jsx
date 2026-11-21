@@ -6,16 +6,20 @@ import {
   Lock,
   Menu,
   X,
+  Settings,
+  Heart,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
+import { useWishlistStore } from "../stores/useWishlistStore";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = () => {
   const { user, logout } = useUserStore();
   const { cart } = useCartStore();
+  const wishCount = useWishlistStore((s) => s.items.length);
   const isAdmin = user?.role === "admin";
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -45,6 +49,19 @@ const Navbar = () => {
               <span className="text-gray-300 text-[1.2rem]">Home</span>
             </Link>
 
+            <Link
+              to={"/wishlist"}
+              className="relative px-3 py-2 rounded-md text-gray-300 hover:text-blue-400 transition-all duration-200 hover:bg-gray-800/50 flex items-center gap-1"
+            >
+              <Heart size={20} />
+              <span className="hidden sm:inline text-[1rem]">Wishlist</span>
+              {wishCount > 0 && (
+                <span className="absolute -top-[.4rem] -left-[.1rem] bg-blue-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold">
+                  {wishCount}
+                </span>
+              )}
+            </Link>
+
             {user && (
               <Link
                 to={"/cart"}
@@ -69,6 +86,15 @@ const Navbar = () => {
                 <span className="hidden sm:inline">Dashboard</span>
               </Link>
             )}
+
+            <Link
+              to={"/settings"}
+              aria-label="Settings"
+              title="Settings"
+              className="p-2 rounded-md text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-all duration-200"
+            >
+              <Settings size={20} />
+            </Link>
 
             {user ? (
               <button
@@ -140,6 +166,24 @@ const Navbar = () => {
                     onClick={() => setMobileMenuOpen(false)}
                   >
                     Home
+                  </Link>
+
+                  <Link
+                    to={"/wishlist"}
+                    className="px-3 py-2.5 rounded-md text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors flex items-center gap-3"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Heart size={20} />
+                    <span>Wishlist ({wishCount})</span>
+                  </Link>
+
+                  <Link
+                    to={"/settings"}
+                    className="px-3 py-2.5 rounded-md text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors flex items-center gap-3"
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    <Settings size={20} />
+                    <span>Settings</span>
                   </Link>
 
                   {user && (

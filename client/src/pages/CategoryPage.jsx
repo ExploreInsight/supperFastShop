@@ -3,12 +3,15 @@ import { useProductStore } from '../stores/useProductStore'
 import { useNavigate, useParams } from 'react-router-dom';
 import {motion} from 'framer-motion'
 import ProductCard from '../components/ProductCard';
+import ProductFilters from '../components/ProductFilters';
+import { useProductFilter } from '../hooks/useProductFilter';
 
 const CategoryPage = () => {
 	const navigate = useNavigate();
    const {fetchProductByCategory, products} = useProductStore();
 
    const {category} = useParams();
+   const { query, setQuery, sort, setSort, visible } = useProductFilter(products);
 
    useEffect(()=>{
     fetchProductByCategory(category);
@@ -25,6 +28,10 @@ const CategoryPage = () => {
 				>
 					{category.charAt(0).toUpperCase() + category.slice(1)}
 				</motion.h1>
+
+				{products?.length > 0 && (
+					<ProductFilters query={query} onQuery={setQuery} sort={sort} onSort={setSort} />
+				)}
 
 				<motion.div
 					className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 justify-items-center'
@@ -52,7 +59,11 @@ const CategoryPage = () => {
 					   </motion.div>
 					)}
 
-					{products?.map((product) => (
+					{products?.length > 0 && visible.length === 0 && (
+						<p className='col-span-full text-gray-400 py-10'>No products match "{query}".</p>
+					)}
+
+					{visible.map((product) => (
 						<ProductCard key={product._id} product={product} />
 					))}
 				</motion.div>

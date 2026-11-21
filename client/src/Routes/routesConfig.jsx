@@ -8,6 +8,8 @@ const HomePage = lazy(() => import("../pages/HomePage"));
 const AdminPage = lazy(() => import("../pages/AdminPage"));
 const CartPage = lazy(() => import("../pages/CartPage"));
 const CategoryPage = lazy(() => import("../pages/CategoryPage"));
+const SettingsPage = lazy(() => import("../pages/SettingsPage"));
+const WishlistPage = lazy(() => import("../pages/WishlistPage"));
 const PurchaseSuccessPage = lazy(() => import("../pages/PurchaseSuccessPage"));
 const PurchaseCancelPage = lazy(() => import("../pages/PurchaseCancelPage"));
 
@@ -31,6 +33,14 @@ export const getAppRoutes = (user) => [
   {
     path: "/category/:category",
     element: <CategoryPage />,
+  },
+  {
+    path: "/settings",
+    element: <SettingsPage />,
+  },
+  {
+    path: "/wishlist",
+    element: <WishlistPage />,
   },
   {
     path: "/cart",

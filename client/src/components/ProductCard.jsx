@@ -1,4 +1,5 @@
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Heart } from "lucide-react";
+import { useWishlistStore } from "../stores/useWishlistStore";
 import toast from "react-hot-toast";
 import { useUserStore } from "../stores/useUserStore";
 import { useCartStore } from "../stores/useCartStore";
@@ -6,6 +7,8 @@ import { useCartStore } from "../stores/useCartStore";
 const ProductCard = ({ product }) => {
   const { user } = useUserStore();
   const { addToCart } = useCartStore();
+  const wished = useWishlistStore((s) => s.items.some((p) => p._id === product._id));
+  const toggleWish = useWishlistStore((s) => s.toggle);
 
   const handleAddToCart = () => {
     if (!user) {
@@ -16,9 +19,20 @@ const ProductCard = ({ product }) => {
   };
 
   return (
-    <div className="w-64 bg-gradient-to-br from-[#0f172a] to-blue-900 rounded-xl shadow-xl border border-blue-700/40 p-4">
+    <div className="w-64 bg-gradient-to-br from-[var(--app-card,#0f172a)] to-blue-900 rounded-xl shadow-xl border border-blue-700/40 p-4">
       {/* Image Container */}
-      <div className="h-48 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+      <div className="relative h-48 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+        <button
+          onClick={() => toggleWish(product)}
+          aria-label={wished ? "Remove from wishlist" : "Add to wishlist"}
+          aria-pressed={wished}
+          className="absolute top-2 right-2 z-10 p-1.5 rounded-full bg-gray-900/70 hover:bg-gray-900 transition-colors"
+        >
+          <Heart
+            size={18}
+            className={wished ? "fill-rose-500 text-rose-500" : "text-white"}
+          />
+        </button>
         <img
           src={product.image}
           alt={product.name}

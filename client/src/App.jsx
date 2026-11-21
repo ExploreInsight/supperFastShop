@@ -5,6 +5,8 @@ import { Toaster } from "react-hot-toast";
 import { useUserStore } from "./stores/useUserStore";
 import { useCartStore } from "./stores/useCartStore";
 import LoadingSpinner from "./components/LoadingSpinner";
+import { MotionConfig } from "framer-motion";
+import { useThemeStore } from "./stores/useThemeStore";
 
 // lazy imports for performance
 import { getAppRoutes } from "./Routes/routesConfig";
@@ -12,6 +14,7 @@ import { getAppRoutes } from "./Routes/routesConfig";
 function App() {
   const { user, confirmAuth, confirmingAuth } = useUserStore();
   const { getCartItems } = useCartStore();
+  const { glow, motion } = useThemeStore();
 
   useEffect(() => {
     confirmAuth();
@@ -25,13 +28,16 @@ function App() {
   if (confirmingAuth) return <LoadingSpinner />;
 
   return (
+    <MotionConfig reducedMotion={motion ? "user" : "always"}>
     <div className="min-h-screen bg-gray-900 text-white relative overflow-hidden">
       {/* Enhanced Background Gradient */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(59,130,246,0.25)_0%,rgba(29,78,216,0.15)_50%,rgba(0,0,0,0.05)_100%)]" />
+      {glow && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(ellipse_at_center,color-mix(in_oklab,var(--color-blue-500)_25%,transparent)_0%,color-mix(in_oklab,var(--color-blue-700)_15%,transparent)_50%,rgba(0,0,0,0.05)_100%)]" />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Content with proper layering */}
       <div className="relative z-10">
@@ -49,6 +55,7 @@ function App() {
         <Toaster />
       </div>
     </div>
+    </MotionConfig>
   );
 }
 

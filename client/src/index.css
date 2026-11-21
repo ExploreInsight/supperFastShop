@@ -1,4 +1,15 @@
 @import "tailwindcss";
+
 body {
-    background-color: #101b38; /* Tailwind gray-900 */
+  background-color: var(--app-bg, #101b38);
+  transition: background-color 0.3s ease;
+}
+
+/* "Animations: off" in Settings */
+[data-motion="reduced"] *,
+[data-motion="reduced"] *::before,
+[data-motion="reduced"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
 }
