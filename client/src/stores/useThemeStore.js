@@ -2,32 +2,24 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { applyTheme } from "../lib/theme";
 
-const DEFAULTS = {
-  accent: "blue",
-  customAccent: "#3b82f6",
-  surface: "navy",
-  glow: true,
-  motion: true,
-};
+const DEFAULTS = { palette: "signal", customField: "#ff4d00", texture: true, motion: true };
 
 export const useThemeStore = create(
   persist(
     (set) => ({
       ...DEFAULTS,
-      setAccent: (accent) => set({ accent }),
-      setCustomAccent: (customAccent) => set({ accent: "custom", customAccent }),
-      setSurface: (surface) => set({ surface }),
-      setGlow: (glow) => set({ glow }),
+      setPalette: (palette) => set({ palette }),
+      setCustomField: (customField) => set({ palette: "custom", customField }),
+      setTexture: (texture) => set({ texture }),
       setMotion: (motion) => set({ motion }),
       reset: () => set({ ...DEFAULTS }),
     }),
     {
-      name: "sfs-theme",
+      name: "sfs-theme-v2",
       onRehydrateStorage: () => (state) => state && applyTheme(state),
     }
   )
 );
 
-// Keep the DOM in sync with the store (also covers first load without storage).
 applyTheme(useThemeStore.getState());
 useThemeStore.subscribe(applyTheme);

@@ -18,7 +18,7 @@ export const useProductStore = create((set) => ({
             }));
             toast.success("Product created successfully!");
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
             set({loading:false})
         }
     },
@@ -28,7 +28,7 @@ export const useProductStore = create((set) => ({
             const res = await axios.get('/product');
             set({products:res.data.products , loading : false});
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
             set({loading:false})
         }
     },
@@ -39,7 +39,7 @@ export const useProductStore = create((set) => ({
         set({products: res.data.products})
         } catch (error) {
             set({ error : "Failed to fetch products", loading: false});
-            toast.error(error.response.data.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
         }
     }
     ,
@@ -52,7 +52,7 @@ export const useProductStore = create((set) => ({
             }));
             toast.success("Product deleted successfully!"); 
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
             set({loading:false})
         }
     },
@@ -66,7 +66,7 @@ export const useProductStore = create((set) => ({
                 loading : false
             }))
         } catch (error) {
-            toast.error(error.response.data.message || "Something went wrong");
+            toast.error(error.response?.data?.message || "Something went wrong");
             set({loading:false})
         }
     },
@@ -74,7 +74,8 @@ export const useProductStore = create((set) => ({
 		set({ loading: true });
 		try {
 			const response = await axios.get("/product/featured");
-			set({ products: response.data, loading: false });
+			const data = response.data;
+			set({ products: Array.isArray(data) ? data : data.featuredProducts ?? [], loading: false });
 		} catch (error) {
 			set({ error: "Failed to fetch products", loading: false });
 			console.log("Error fetching featured products:", error);

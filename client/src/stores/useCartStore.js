@@ -24,7 +24,7 @@ export const useCartStore = create((set, get) => ({
       get().calculateTotals();
       toast.success("Coupon applied successfully!");
     } catch (error) {
-      toast.error(error.response.data.message || 
+      toast.error(error.response?.data?.message || 
         "Failed to apply coupon. Please try again.");
     }
   },
@@ -43,66 +43,53 @@ export const useCartStore = create((set, get) => ({
       get().calculateTotals();
     } catch (error) {
       set({ cart: [] });
-      toast.error(error.response.data.message || "Something went wrong");
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
-  addToCart: async (product) => {
+  addToCart: async (product, size = "") => {
     try {
-      await axios.post("/cart", { productId: product._id });
-      toast.success("Item added to cart successfully!");
+      await axios.post("/cart", { productId: product._id, size });
+      toast.success(size ? `Added ${product.name} (${size})` : `Added ${product.name}`);
 
       set((prevState) => {
-        const existingItem = prevState.cart.find(
-          (item) => item._id === product._id
-        );
-
-        const newCart = existingItem
-          ? prevState.cart.map((item) =>
-              item._id === product._id
-                ? { ...item, quantity: item.quantity + 1 }
-                : item
-            )
-          : [...prevState.cart, { ...product, quantity: 1 }];
-
+        const same = (item) => item._id === product._id && (item.size || "") === size;
+        const newCart = prevState.cart.some(same)
+          ? prevState.cart.map((item) => (same(item) ? { ...item, quantity: item.quantity + 1 } : item))
+          : [...prevState.cart, { ...product, quantity: 1, size }];
         return { cart: newCart };
       });
       get().calculateTotals();
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message || "Something went wrong ");
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
-  removeFromCart: async (productId) => {
+  removeFromCart: async (productId, size = "") => {
     try {
-      await axios.delete(`/cart`, { data: { productId } });
+      await axios.delete(`/cart`, { data: { productId, size } });
       set((prevState) => ({
-        cart: prevState.cart.filter((item) => item._id !== productId),
+        cart: prevState.cart.filter((item) => !(item._id === productId && (item.size || "") === size)),
       }));
       get().calculateTotals();
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message || "Something went wrong ");
+      toast.error(error.response?.data?.message || "Something went wrong");
     }
   },
-  updateQuantity: async (id, quantity)=>{
-    if(quantity === 0){
-        get().removeFromCart(id);
-        return;
+  updateQuantity: async (id, quantity, size = "") => {
+    if (quantity === 0) {
+      get().removeFromCart(id, size);
+      return;
     }
     try {
-        await axios.put(`/cart/${id}`, { quantity });
-    
-        set((prevState) => ({
-          cart: prevState.cart.map((item) =>
-            item._id === id ? { ...item, quantity } : item
-          ),
-        }));
-    
-        get().calculateTotals();
-      } catch (error) {
-        console.log(error);
-        toast.error(error.response?.data?.message || "Something went wrong");
-      }
+      await axios.put(`/cart/${id}`, { quantity, size });
+      set((prevState) => ({
+        cart: prevState.cart.map((item) =>
+          item._id === id && (item.size || "") === size ? { ...item, quantity } : item
+        ),
+      }));
+      get().calculateTotals();
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Something went wrong");
+    }
   },
   calculateTotals: () => {
     const { cart, coupon } = get();
