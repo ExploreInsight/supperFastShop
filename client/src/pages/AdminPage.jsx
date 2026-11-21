@@ -1,61 +1,45 @@
-import { BarChart, PlusCircle, ShoppingBasket } from "lucide-react";
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-
-import AnalyticsTab from "../components/AnalyticsTab";
-import CreateProductForm from "../components/CreateProductForm";
-import ProductsList from "../components/ProductsList";
 import { useProductStore } from "../stores/useProductStore";
+import ProductForm from "../components/admin/ProductForm";
+import ProductTable from "../components/admin/ProductTable";
+import AnalyticsTab from "../components/admin/AnalyticsTab";
 
-const tabs = [
-  { id: "create", label: "Create Product", icon: PlusCircle },
-  { id: "products", label: "Products", icon: ShoppingBasket },
-  { id: "analytics", label: "Analytics", icon: BarChart },
+const TABS = [
+  { id: "create", label: "Create" },
+  { id: "products", label: "Products" },
+  { id: "analytics", label: "Analytics" },
 ];
 
-function AdminPage() {
-  const [activeTab, setActiveTab] = useState("create");
-
-  const {fetchAllProducts} = useProductStore();
-
-  useEffect(()=>{
+const AdminPage = () => {
+  const [tab, setTab] = useState("create");
+  const fetchAllProducts = useProductStore((s) => s.fetchAllProducts);
+  useEffect(() => {
     fetchAllProducts();
-  },[fetchAllProducts]);
-  
+  }, [fetchAllProducts]);
+
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      <div className="relative z-10 container mx-auto px-4 py-16">
-        <motion.h1
-          className="text-4xl font-bold mb-8 text-center text-blue-400"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-        >
-          
-          Admin Dashboard
-        </motion.h1>
-        <div className="flex justify-center mb-8">
-                {tabs.map(tab=>(
-                    <button
-                    key={tab.id}
-                    onClick={()=>setActiveTab(tab.id)}
-                    className={`flex items-center px-4 py-2 mx-2 rounded-md transition-colors duration-200 ${
-                        activeTab === tab.id
-                            ? "bg-gray-700 text-white bg-gradient-to-br from-blue-600 to-blue-800  hover:from-blue-500 hover:to-blue-700"
-                            : "bg-gray-700 text-white hover:bg-gray-600"
-                    }`}
-                    >
-                        <tab.icon className="mr-2 h-5 w-5" />
-                        {tab.label}
-                    </button>
-                ))}
-        </div>
-        {activeTab === 'create' && <CreateProductForm />}
-        {activeTab === 'products' && <ProductsList />}
-        {activeTab === 'analytics' && < AnalyticsTab/>}
+    <div className="mx-auto max-w-6xl px-4 sm:px-6 pt-8">
+      <h1 className="text-6xl sm:text-8xl">Dashboard</h1>
+      <div role="tablist" aria-label="Dashboard sections" className="mt-6 flex gap-2 flex-wrap">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            role="tab"
+            aria-selected={tab === t.id}
+            onClick={() => setTab(t.id)}
+            className={`px-5 py-2.5 rounded-md border-2 border-on-field font-bold ${tab === t.id ? "bg-on-field text-field" : "hover:bg-on-field/10"}`}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+      <div role="tabpanel" className="mt-8">
+        {tab === "create" && <ProductForm />}
+        {tab === "products" && <ProductTable />}
+        {tab === "analytics" && <AnalyticsTab />}
       </div>
     </div>
   );
-}
+};
 
 export default AdminPage;
