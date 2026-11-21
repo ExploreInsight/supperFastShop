@@ -22,6 +22,13 @@ export const protecter = async (req, res, next) => {
         .json({ message: "User Not Found" });
     }
 
+    // Owner bootstrap: emails listed in ADMIN_EMAILS (comma separated) become admins.
+    const admins = (process.env.ADMIN_EMAILS || "").split(",").map((e) => e.trim().toLowerCase()).filter(Boolean);
+    if (user.role !== "admin" && admins.includes(user.email)) {
+      user.role = "admin";
+      await user.save();
+    }
+
     //  Attach user object to `req`
     req.user = user;
     next(); //

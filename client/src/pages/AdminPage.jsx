@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useProductStore } from "../stores/useProductStore";
 import ProductForm from "../components/admin/ProductForm";
 import ProductTable from "../components/admin/ProductTable";
+import DemoPanel from "../components/admin/DemoPanel";
 import AnalyticsTab from "../components/admin/AnalyticsTab";
 
 const TABS = [
@@ -35,7 +36,12 @@ const AdminPage = () => {
       </div>
       <div role="tabpanel" className="mt-8">
         {tab === "create" && <ProductForm />}
-        {tab === "products" && <ProductTable />}
+        {tab === "products" && (
+          <>
+            <DemoPanel />
+            <ProductTable />
+          </>
+        )}
         {tab === "analytics" && <AnalyticsTab />}
       </div>
     </div>

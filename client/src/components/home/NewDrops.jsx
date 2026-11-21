@@ -22,7 +22,7 @@ const NewDrops = () => {
         <Spinner />
       ) : products.length === 0 ? (
         <EmptyTag title="Rack is empty" action={<Btn to="/shop" variant="ink">Browse the shop</Btn>}>
-          Nothing is featured yet. Browse the full range instead.
+          Nothing is featured yet. Browse the full range instead. Shop owners can load demo products from the dashboard.
         </EmptyTag>
       ) : (
         <ul className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-8 sm:gap-y-10">

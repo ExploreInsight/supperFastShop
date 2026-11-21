@@ -4,6 +4,9 @@ import { stripe } from "../lib/stripe.js";
 import Order from "../models/order.model.js";
 import User from "../models/user.model.js";
 
+// Stripe needs an absolute http(s) URL and rejects SVG.
+const isStripeImage = (url) => /^https?:\/\//.test(url || "") && !/\.svg(\?|$)/i.test(url);
+
 export const createCheckoutSession = async (req, res) => {
   try {
     const { products, couponCode } = req.body;
@@ -25,7 +28,7 @@ export const createCheckoutSession = async (req, res) => {
           currency: "usd",
           product_data: {
             name: product.size ? `${product.name} (${product.size})` : product.name,
-            images: [product.image],
+            ...(isStripeImage(product.image) ? { images: [product.image] } : {}),
           },
           unit_amount: amount,
         },

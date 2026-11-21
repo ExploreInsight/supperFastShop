@@ -26,6 +26,10 @@ const productSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    isDemo: {
+        type: Boolean,
+        default: false,
+    },
     sizes: {
         type: [String],
         default: ["XS", "S", "M", "L", "XL"],

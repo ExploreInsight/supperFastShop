@@ -5,7 +5,7 @@ import Tag from "../ui/Tag";
 
 const ProductTable = () => {
   const { products, deleteProduct, toggleFeaturedProduct } = useProductStore();
-  if (!products?.length) return <Tag className="p-8 text-center max-w-md mx-auto"><p className="font-bold">No products yet. Create the first one.</p></Tag>;
+  if (!products?.length) return <Tag className="p-8 text-center max-w-md mx-auto"><p className="font-bold">No products yet. Create one on the Create tab, or load the demo products above.</p></Tag>;
 
   return (
     <Tag className="overflow-x-auto">
