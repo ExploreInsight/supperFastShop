@@ -16,8 +16,8 @@ const Barcode = ({ value = "SUPERFAST", height = 34, label = true, className = "
   }, [value]);
 
   return (
-    <figure className={`inline-block ${className}`} aria-label={`Code ${value}`}>
-      <svg viewBox={`0 0 ${bars.width} ${height}`} width={bars.width * 2} height={height} role="img" aria-hidden="true" preserveAspectRatio="none">
+    <figure className={`inline-block max-w-full ${className}`} aria-label={`Code ${value}`}>
+      <svg className="max-w-full h-auto" viewBox={`0 0 ${bars.width} ${height}`} width={bars.width * 2} height={height} role="img" aria-hidden="true" preserveAspectRatio="none">
         {bars.out.map((b, i) => (
           <rect key={i} x={b.x} y="0" width={b.w} height={height} fill="currentColor" />
         ))}

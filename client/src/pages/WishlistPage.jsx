@@ -16,7 +16,7 @@ const WishlistPage = () => {
           Tap the heart on any tag to keep it here. Saved items stay on this device.
         </EmptyTag>
       ) : (
-        <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
+        <ul className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-8 sm:gap-y-10">
           {items.map((p) => (
             <li key={p._id}><ProductTag product={{ sizes: ["XS", "S", "M", "L", "XL"], soldOutSizes: [], ...p }} /></li>
           ))}

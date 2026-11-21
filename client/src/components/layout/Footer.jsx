@@ -9,7 +9,7 @@ const Footer = () => (
         <p className="mt-4 max-w-sm text-paper/70">Streetwear and accessories. Pick a size, add to cart, pay.</p>
       </div>
       <nav aria-label="Shop by category">
-        <h2 className="font-label text-xs tracking-widest text-paper/60 mb-3 !font-semibold">Shop</h2>
+        <h2 className="font-label text-sm font-semibold tracking-widest text-sticker mb-3 leading-none">Shop</h2>
         <ul className="space-y-1.5">
           {CATEGORIES.map((c) => (
             <li key={c.slug}>
@@ -19,7 +19,7 @@ const Footer = () => (
         </ul>
       </nav>
       <nav aria-label="Account">
-        <h2 className="font-label text-xs tracking-widest text-paper/60 mb-3 !font-semibold">You</h2>
+        <h2 className="font-label text-sm font-semibold tracking-widest text-sticker mb-3 leading-none">You</h2>
         <ul className="space-y-1.5">
           <li><Link className="hover:text-sticker" to="/wishlist">Wishlist</Link></li>
           <li><Link className="hover:text-sticker" to="/orders">Orders</Link></li>

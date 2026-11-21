@@ -83,7 +83,7 @@ const ShopPage = () => {
             </EmptyTag>
           ) : (
             <>
-              <ul className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-5 gap-y-10">
+              <ul className="grid grid-cols-2 xl:grid-cols-3 gap-x-3 sm:gap-x-5 gap-y-8 sm:gap-y-10">
                 {products.map((p) => (
                   <li key={p._id}><ProductTag product={p} /></li>
                 ))}

@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { CATEGORIES } from "../../lib/format";
 import Tag from "../ui/Tag";
 import Barcode from "../ui/Barcode";
+import MoreTag from "../shop/MoreTag";
 
 const tilts = [-2, 1.5, -1, 2, -1.5, 1, -2.5];
 
@@ -23,6 +24,7 @@ const CategoryTags = () => (
           </Link>
         </li>
       ))}
+      <li><MoreTag tilt={-1}>All products</MoreTag></li>
     </ul>
   </section>
 );

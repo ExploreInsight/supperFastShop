@@ -1,5 +1,5 @@
 const wrap = (children, label) => (
-  <svg viewBox="0 0 32 32" className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label={label}>
+  <svg viewBox="0 0 32 32" className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" role="img" aria-label={label}>
     {children}
   </svg>
 );
@@ -12,7 +12,7 @@ export const CARE = [
 ];
 
 const CareIcons = ({ className = "" }) => (
-  <ul className={`flex gap-3 ${className}`}>
+  <ul className={`flex gap-2 ${className}`}>
     {CARE.map((c) => (
       <li key={c.id} title={c.label}>
         {c.icon}

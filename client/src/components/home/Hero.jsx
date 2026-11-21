@@ -2,11 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
 import { Link } from "react-router-dom";
-import { SIZES } from "../../lib/format";
+import { CATEGORIES, SIZES } from "../../lib/format";
 import Tag from "../ui/Tag";
 import Btn from "../ui/Btn";
 import Barcode from "../ui/Barcode";
-import WovenLabel from "../ui/WovenLabel";
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -19,10 +18,9 @@ const Hero = () => {
 
   return (
     <section className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 pb-14 lg:pt-20 grid lg:grid-cols-12 gap-10 lg:gap-6 items-start">
-      <div className="lg:col-span-7 swing drop-in" style={{ "--r0": "-5deg", "--r1": "-2deg" }}>
-        <Tag hole string className="px-6 sm:px-12 pt-14 pb-7" wrapClassName="max-w-3xl">
-          <WovenLabel>Streetwear + accessories</WovenLabel>
-          <h1 className="mt-3 text-[clamp(3.25rem,15vw,8.5rem)] leading-[0.85]">Superfast</h1>
+      <div className="lg:col-span-8 swing drop-in" style={{ "--r0": "-5deg", "--r1": "-2deg" }}>
+        <Tag hole string className="px-6 sm:px-12 pt-14 pb-7" wrapClassName="max-w-4xl">
+          <h1 className="text-[clamp(3.25rem,15vw,8.5rem)] leading-[0.85]">Superfast</h1>
 
           <form onSubmit={search} role="search" className="mt-5 flex items-center border-2 border-ink rounded-md bg-white/60">
             <Search size={18} className="ml-3 shrink-0" aria-hidden="true" />
@@ -63,8 +61,8 @@ const Hero = () => {
         </Tag>
       </div>
 
-      <div className="lg:col-span-5 lg:pt-20">
-        <p className="font-display font-black uppercase text-[clamp(2.75rem,7vw,5.5rem)] leading-[0.88]">
+      <div className="lg:col-span-4 lg:pt-16">
+        <p className="font-display font-black uppercase text-[clamp(2.75rem,5.5vw,4.75rem)] leading-[0.88]">
           Pick a size.
           <br />
           Add it.
@@ -73,6 +71,15 @@ const Hero = () => {
         </p>
         <p className="mt-5 max-w-sm text-lg">Jeans, tees, shoes, shades, jackets, suits and bags. Search, filter and check out without the detours.</p>
       </div>
+      <ul className="lg:col-span-12 flex flex-wrap gap-2 sm:gap-3 -mt-2" aria-label="Categories">
+        {CATEGORIES.map((c, i) => (
+          <li key={c.slug}>
+            <Link to={`/shop?category=${c.slug}`} className="tag-wrap block hover:-translate-y-1 transition-transform" style={{ transform: `rotate(${[-2, 1.5, -1, 2, -1.5, 1, -2][i]}deg)` }}>
+              <span className="tag block px-4 py-2.5 font-display font-black uppercase text-2xl leading-none" style={{ "--cut": "9px" }}>{c.name}</span>
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 };

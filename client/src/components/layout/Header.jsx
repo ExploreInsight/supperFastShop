@@ -60,7 +60,7 @@ const Header = () => {
           </div>
         </form>
 
-        <nav aria-label="Primary" className="hidden md:flex items-center gap-1">
+        <nav aria-label="Primary" className="hidden md:flex items-center gap-1 ml-auto">
           <NavLink to="/shop" className={({ isActive }) => `${iconBtn} font-bold px-3.5 ${isActive ? "underline underline-offset-8 decoration-2" : ""}`}>
             Shop
           </NavLink>

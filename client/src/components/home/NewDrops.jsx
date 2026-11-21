@@ -3,6 +3,7 @@ import { useProductStore } from "../../stores/useProductStore";
 import ProductTag from "../shop/ProductTag";
 import EmptyTag from "../ui/EmptyTag";
 import Btn from "../ui/Btn";
+import MoreTag from "../shop/MoreTag";
 import Spinner from "../ui/Spinner";
 
 const NewDrops = () => {
@@ -25,12 +26,13 @@ const NewDrops = () => {
           Nothing is featured yet. Browse the full range instead.
         </EmptyTag>
       ) : (
-        <ul className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-5 gap-y-10">
+        <ul className="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-x-3 sm:gap-x-5 gap-y-8 sm:gap-y-10">
           {products.slice(0, 8).map((p, i) => (
             <li key={p._id}>
               <ProductTag product={p} tilt={[-1, 0.8, -0.6, 1][i % 4]} />
             </li>
           ))}
+          <li><MoreTag /></li>
         </ul>
       )}
     </section>
