@@ -2,9 +2,9 @@ import { SIZES } from "../../lib/format";
 
 // A run of stamped size cells. Sold-out sizes are ghost cells: drawn, never removed.
 const SizeRun = ({ sizes = SIZES, soldOut = [], value, onChange, size = "md", interactive = true, className = "" }) => {
-  const dims = size === "sm" ? "h-7 min-w-7 px-1.5 text-xs" : "h-11 min-w-11 px-3 text-base";
+  const dims = size === "sm" ? "h-6 min-w-6 px-1 text-[0.65rem] sm:h-7 sm:min-w-7 sm:px-1.5 sm:text-xs" : "h-11 min-w-11 px-3 text-base";
   return (
-    <div className={`flex flex-wrap gap-1.5 ${className}`} role={interactive ? "radiogroup" : undefined} aria-label="Size">
+    <div className={`flex flex-wrap gap-1 sm:gap-1.5 ${className}`} role={interactive ? "radiogroup" : undefined} aria-label="Size">
       {sizes.map((s) => {
         const out = soldOut.includes(s);
         const active = value === s;

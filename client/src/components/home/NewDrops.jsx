@@ -3,7 +3,6 @@ import { useProductStore } from "../../stores/useProductStore";
 import ProductTag from "../shop/ProductTag";
 import EmptyTag from "../ui/EmptyTag";
 import Btn from "../ui/Btn";
-import MoreTag from "../shop/MoreTag";
 import Spinner from "../ui/Spinner";
 
 const NewDrops = () => {
@@ -32,7 +31,6 @@ const NewDrops = () => {
               <ProductTag product={p} tilt={[-1, 0.8, -0.6, 1][i % 4]} />
             </li>
           ))}
-          <li><MoreTag /></li>
         </ul>
       )}
     </section>
