@@ -24,7 +24,7 @@ export const createCheckoutSession = async (req, res) => {
         price_data: {
           currency: "usd",
           product_data: {
-            name: product.name,
+            name: product.size ? `${product.name} (${product.size})` : product.name,
             images: [product.image],
           },
           unit_amount: amount,
@@ -74,6 +74,7 @@ export const createCheckoutSession = async (req, res) => {
             id: p._id,
             quantity: p.quantity,
             price: p.price,
+            size: p.size || "",
           }))
         ),
       },
@@ -119,6 +120,7 @@ export const checkoutSuccess = async (req, res) => {
           product: product.id,
           quantity: product.quantity,
           price: product.price,
+          size: product.size || "",
         })),
         totalAmount: session.amount_total / 100, // convert from cents to dollars,
         stripeSessionId: sessionId,

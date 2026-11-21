@@ -3,6 +3,15 @@ import Product from "../models/product.model.js";
 import { redis } from "../lib/redis.js";
 import cloudinary from "../lib/cloudinary.js";
 import sharp from "sharp";
+import mongoose from "mongoose";
+
+// "S, M, L" -> ["S","M","L"]
+const parseList = (value) =>
+  (value ?? "")
+    .toString()
+    .split(",")
+    .map((v) => v.trim().toUpperCase())
+    .filter(Boolean);
 
 export const getAllProducts = async (req, res) => {
   try {
@@ -37,7 +46,7 @@ export const getFeaturedProducts = async (req, res) => {
     //store the productts in the redis for the future quick access
     await redis.set("featured_products", JSON.stringify(featuredProducts));
 
-    res.json({ featuredProducts });
+    res.json(featuredProducts);
   } catch (error) {
     return res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -50,6 +59,8 @@ export const createProduct = async (req, res) => {
     // const { name, description, price, image, category } = req.body;
 
     const { name, description, price, category } = req.body;
+    const sizes = parseList(req.body.sizes);
+    const soldOutSizes = parseList(req.body.soldOutSizes);
     let cloudinaryResponse = null;
 
     if (req.file) {
@@ -106,6 +117,8 @@ export const createProduct = async (req, res) => {
       price,
       image: cloudinaryResponse.secure_url,
       category,
+      ...(sizes.length ? { sizes } : {}),
+      soldOutSizes,
     });
     res
       .status(StatusCodes.CREATED)
@@ -223,3 +236,75 @@ async function updateFeaturedProductsCache() {
     console.log("Error in update cache function", error);
   }
 }
+
+
+// GET /api/product/search?q=&category=&sort=&minPrice=&maxPrice=&page=&limit=
+export const searchProducts = async (req, res) => {
+  try {
+    const { q = "", category, size, sort = "new", minPrice, maxPrice } = req.query;
+    const page = Math.max(1, parseInt(req.query.page) || 1);
+    const limit = Math.min(48, Math.max(1, parseInt(req.query.limit) || 24));
+
+    const filter = {};
+    const term = q.toString().trim().slice(0, 60);
+    if (term) {
+      const safe = term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      filter.$or = [
+        { name: { $regex: safe, $options: "i" } },
+        { description: { $regex: safe, $options: "i" } },
+        { category: { $regex: safe, $options: "i" } },
+      ];
+    }
+    if (category) filter.category = category;
+    if (size) {
+      // in the size run and not sold out
+      filter.sizes = size.toString().toUpperCase();
+      filter.soldOutSizes = { $ne: size.toString().toUpperCase() };
+    }
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    const sorts = {
+      new: { createdAt: -1 },
+      "price-asc": { price: 1 },
+      "price-desc": { price: -1 },
+      rating: { ratingAverage: -1, ratingCount: -1 },
+    };
+
+    const [products, total] = await Promise.all([
+      Product.find(filter)
+        .sort(sorts[sort] || sorts.new)
+        .skip((page - 1) * limit)
+        .limit(limit)
+        .lean(),
+      Product.countDocuments(filter),
+    ]);
+
+    res.json({ products, total, page, pages: Math.ceil(total / limit) });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
+  }
+};
+
+// GET /api/product/:id  (+ up to 4 related products from the same category)
+export const getProductById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    if (!mongoose.isValidObjectId(id)) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ message: "Invalid product id" });
+    }
+    const product = await Product.findById(id).lean();
+    if (!product) {
+      return res.status(StatusCodes.NOT_FOUND).json({ message: "Product not found" });
+    }
+    const related = await Product.find({ category: product.category, _id: { $ne: product._id } })
+      .limit(4)
+      .lean();
+    res.json({ product, related });
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
+  }
+};

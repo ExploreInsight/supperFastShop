@@ -1,53 +1,21 @@
 import { StatusCodes } from "http-status-codes";
 import Product from "../models/product.model.js";
 
-// Two ways to get the cart product 
-// 1. Using populate method to get the product 
-
-// export const getCartProducts = async (req, res) => {
-//   try {
-//     const usersCartItems = req.user.populate("cartItems.product");
-
-//     const cartItems = await usersCartItems.map((item)=>{
-//       const product = item.product.toObject();
-//       return {
-//         ...product,
-//         quantity: item.quantity,
-//       }
-//     })
-//     res.json(cartItems)
-//   } catch (error) {
-//     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
-//   }
-// }
-
-// 2. Using find method to get the product {'For now i would be using this method cause this is new to me or whatever'}
+// One cart line per product + size.
 export const getCartProducts = async (req, res) => {
   try {
-    //  Get the user's cart
-    const userCart = req.user.cartItems; 
-
-    //  Get all product IDs from the cart
+    const userCart = req.user.cartItems;
     const productIds = userCart.map((item) => item.product);
-
-    //  Find all products from the DB that match those IDs
     const products = await Product.find({ _id: { $in: productIds } });
 
-    // Combine each product with its quantity from the user's cart
-    const finalCartItems = products.map((product) => {
-      // Find the matching item in the user's cart
-      const cartItem = userCart.find(
-        (item) => item.product.toString() === product._id.toString()
-      );
+    const finalCartItems = userCart
+      .map((item) => {
+        const product = products.find((p) => p._id.toString() === item.product.toString());
+        if (!product) return null;
+        return { ...product.toJSON(), quantity: item.quantity, size: item.size || "" };
+      })
+      .filter(Boolean);
 
-      
-      return {
-       ...product.toJSON(),
-       quantity: cartItem.quantity
-      };
-    });
-
-    //  Send the final cart to the frontend
     res.json(finalCartItems);
   } catch (error) {
     console.error("Error getting cart:", error);
@@ -55,10 +23,9 @@ export const getCartProducts = async (req, res) => {
   }
 };
 
-
 export const addToCart = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId, size = "" } = req.body;
     const user = req.user; // Authenticated user from middleware
 
     if (!productId) {
@@ -68,8 +35,8 @@ export const addToCart = async (req, res) => {
     }
 
     // Check if product already exists in cart
-    const existingItem = user.cartItems.find((item) =>
-      item.product.toString() === productId
+    const existingItem = user.cartItems.find(
+      (item) => item.product.toString() === productId && (item.size || "") === size
     );
 
     if (existingItem) {
@@ -77,7 +44,7 @@ export const addToCart = async (req, res) => {
       existingItem.quantity += 1;
     } else {
       // If not exists, push new item
-      user.cartItems.push({ product: productId, quantity: 1 });
+      user.cartItems.push({ product: productId, quantity: 1, size });
     }
 
     await user.save(); // Save the updated user with new cartItems
@@ -116,16 +83,16 @@ export const addToCart = async (req, res) => {
 
 export const removeAllFromCart = async (req, res) => {
   try {
-    const { productId } = req.body;
+    const { productId, size = "" } = req.body;
     const user = req.user;
 
     if (!productId) {
       // Clear entire cart
       user.cartItems = [];
     } else {
-      // Remove specific product
+      // Remove one product + size line
       user.cartItems = user.cartItems.filter(
-        (item) => item.product.toString() !== productId
+        (item) => !(item.product.toString() === productId && (item.size || "") === size)
       );
     }
     await user.save();
@@ -166,17 +133,18 @@ export const removeAllFromCart = async (req, res) => {
 export const updateQuantity = async (req, res) => {
   try {
     const { id: productId } = req.params;
-    const { quantity } = req.body;
+    const { quantity, size = "" } = req.body;
     const user = req.user;
+    const sameLine = (item) => item.product.toString() === productId && (item.size || "") === size;
 
-    const existingItem = user.cartItems.find((item) => item.product.toString() === productId);
+    const existingItem = user.cartItems.find(sameLine);
 
     if (!existingItem) {
       return res.status(StatusCodes.NOT_FOUND).json({ message: "Product not found" });
     }
 
     if (quantity === 0) {
-      user.cartItems = user.cartItems.filter((item) => item.product.toString() !== productId);
+      user.cartItems = user.cartItems.filter((item) => !sameLine(item));
     } else {
       existingItem.quantity = quantity;
     }

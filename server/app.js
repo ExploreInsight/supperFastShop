@@ -6,6 +6,8 @@ import cartRoutes from "./routes/cart.routes.js";
 import couponsRoutes from "./routes/coupon.routes.js";
 import paymentRoutes from "./routes/payment.routes.js";
 import analyticsRoutes from "./routes/analytics.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
+import orderRoutes from "./routes/order.routes.js";
 import path from 'path';
 
 const createApp = () => {
@@ -22,6 +24,8 @@ const createApp = () => {
   app.use("/api/coupons", couponsRoutes);
   app.use("/api/payment", paymentRoutes);
   app.use("/api/analytics", analyticsRoutes);
+  app.use("/api/reviews", reviewRoutes);
+  app.use("/api/orders", orderRoutes);
 
   if(process.env.NODE_ENV === "production"){
     app.use(expres.static(path.join(__dirname, "/client/dist")));
