@@ -1,15 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import Product from "../models/product.model.js";
-import { redis } from "../lib/redis.js";
-import { DEMO_PRODUCTS } from "../lib/demoProducts.js";
-
-const refreshFeaturedCache = async () => {
-  try {
-    await redis.del("featured_products");
-  } catch (e) {
-    console.log("Could not clear featured cache", e.message);
-  }
-};
+import { clearFeaturedCache, seedDemoProducts } from "../lib/seedDemo.js";
 
 // Where the demo images are served from: this same site.
 const imageBase = (req) =>
@@ -19,15 +10,8 @@ const imageBase = (req) =>
 export const loadDemoProducts = async (req, res) => {
   try {
     const base = imageBase(req);
-    let added = 0;
-    for (const p of DEMO_PRODUCTS) {
-      const exists = await Product.exists({ name: p.name, category: p.category, isDemo: true });
-      if (exists) continue;
-      await Product.create({ ...p, image: `${base}${p.image}`, isDemo: true });
-      added++;
-    }
-    await refreshFeaturedCache();
-    res.status(StatusCodes.CREATED).json({ added, total: DEMO_PRODUCTS.length });
+    const added = await seedDemoProducts(base);
+    res.status(StatusCodes.CREATED).json({ added, total: 21 });
   } catch (error) {
     console.error("Error loading demo products:", error);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });
@@ -38,7 +22,7 @@ export const loadDemoProducts = async (req, res) => {
 export const removeDemoProducts = async (req, res) => {
   try {
     const { deletedCount } = await Product.deleteMany({ isDemo: true });
-    await refreshFeaturedCache();
+    await clearFeaturedCache();
     res.json({ removed: deletedCount });
   } catch (error) {
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: "Internal Server Error" });

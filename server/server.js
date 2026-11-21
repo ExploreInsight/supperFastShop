@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import createApp from "./app.js";
 import { connectDB } from "./lib/db.js";
+import { autoSeedIfEmpty } from "./lib/seedDemo.js";
 
 const startServer = async () => {
   try {
@@ -9,6 +10,9 @@ const startServer = async () => {
 
     //connecting the db
     await connectDB();
+
+    // an empty shop gets the demo catalogue (AUTO_SEED=false to disable)
+    await autoSeedIfEmpty();
 
     //create app
     const app = createApp();

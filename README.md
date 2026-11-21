@@ -212,5 +212,5 @@ npm start
 
 - **Make yourself admin:** sign up in the shop with your email, then set `ADMIN_EMAILS=you@example.com` (comma-separate several) in the server environment (Render: Environment tab) and restart. The next time you load the site while logged in, your account becomes `admin` and a Dashboard link appears under the account menu.
   Sign up with that email first, before anyone else can.
-- **Fill an empty shop:** Dashboard, Products tab, "Load demo products" adds 21 sample products (3 per category). "Remove demo products" deletes only those; your own products are never touched.
+- **Empty shop fills itself:** on startup, if the database has no products, the server adds the 21 demo products automatically (set `AUTO_SEED=false` to disable). You can also use Dashboard, Products tab, "Load demo products" adds 21 sample products (3 per category). "Remove demo products" deletes only those; your own products are never touched.
 - **Your own products:** Dashboard, Create tab (photo, price, category, sizes, sold-out sizes). Toggle the star in the Products tab to feature a product on the home page.
