@@ -1,0 +1,79 @@
+{
+  "title": "Choose the visual world for the new supperFastShop",
+  "question": "The roll assigned The Hang Tag. Keep it, take an alternate, or re-roll.",
+  "options": [
+    {
+      "id": "assigned", "kind": "assigned", "label": "The Hang Tag", "kicker": "THE ROLL",
+      "lineage": "garment swing tags, woven care labels and retail price guns",
+      "thesis": "Every screen is a tag on the garment: price-gun stickers, woven labels, barcodes and size runs do the talking, not photos.",
+      "palette": ["#ff4d00", "#0b0b0b", "#f7f4ec", "#d7ff3a"],
+      "materials": ["die-cut tag stock", "woven label", "price-gun sticker"],
+      "viewport": "A drenched safety-orange field; one oversized die-cut tag with a punched hole hangs in it, carrying the name, a live size run (XS-XL as stamped cells) and a SHOP NOW sticker; search sits on the string.",
+      "risk": "Becomes a costume if the tags are decoration instead of the actual cards, filters and cart rows.",
+      "raised": [
+        {"from": "risograph-web-system", "raise": "Total spot-ink commitment: only orange, black, white and one acid-yellow sticker ink, with stickers printed a hair off register."},
+        {"from": "signals-instruments-seven-segment-alarm-clock", "raise": "Unlit is designed too: sold-out sizes and empty states are drawn as ghost cells, never removed."}
+      ]
+    },
+    {
+      "id": "model-pick", "kind": "pick", "label": "Drop Day Shoebox", "kicker": "IMPECCABLE'S PICK",
+      "lineage": "sneaker release boxes and raffle tickets",
+      "thesis": "Every product is a numbered release in a box: label sticker, size grid, a drop countdown.",
+      "palette": ["#e63312", "#111111", "#ffffff", "#c8c8c8"],
+      "materials": ["cardboard box", "label sticker"],
+      "viewport": "A box lid with a huge numbered release label, size grid and a Cop button.",
+      "risk": "Also where most streetwear shops land, so it can read as familiar."
+    },
+    {
+      "id": "challenger-riso", "kind": "challenger", "catalogId": "risograph-web-system", "label": "Risograph Zine", "verdict": "competitive",
+      "lineage": "risograph zines and gig flyers",
+      "thesis": "Two fluorescent inks misregister on toothy paper.",
+      "palette": ["#ff48b0", "#0078bf", "#ffe800", "#f2ead7"],
+      "materials": ["riso ink", "paper grain"],
+      "viewport": "Cut-paper shapes in fluoro pink and blue, ink layers just off register.",
+      "case": "Strong audience fit and zine energy; weaker on clarity for prices and checkout.",
+      "risk": "Paper ground leans cream-and-print, which is a known default look."
+    },
+    {
+      "id": "challenger-mondo", "kind": "challenger", "catalogId": "digital-design-canon-mondo-tech-utopian-spread", "label": "Mondo Duotone", "verdict": "competitive",
+      "lineage": "early-90s tech magazine spreads",
+      "thesis": "Two impossible inks print everything, headlines slammed at an angle.",
+      "palette": ["#ff6a00", "#00d4ff", "#0a0a0a", "#ffffff"],
+      "materials": ["duotone blend", "angled slabs"],
+      "viewport": "Angled headline slab over a duotone grid with a glossary-style margin nav.",
+      "case": "Loud and youthful; navigation by glossary costs clarity on a shop.",
+      "risk": "Duotone on product imagery can hide real colors."
+    },
+    {
+      "id": "challenger-sevenseg", "kind": "challenger", "catalogId": "signals-instruments-seven-segment-alarm-clock", "label": "Seven-Segment Totem", "verdict": "declined",
+      "palette": ["#ff2a1a", "#050505"], "materials": ["LED segments"],
+      "case": "Loses both: reads as electronics, not clothes.", "kept": "Ghost cells for unavailable states."
+    },
+    {
+      "id": "challenger-akari", "kind": "challenger", "catalogId": "paper-folds-pleats-deployable-akari-light-sculpture", "label": "Akari Workshop", "verdict": "declined",
+      "palette": ["#f6ecd2", "#c8a26a", "#c3301f"], "materials": ["washi", "bamboo"],
+      "case": "Loses both: calm craft is the wrong energy for fast streetwear.", "kept": "Light as state."
+    },
+    {
+      "id": "challenger-brick", "kind": "challenger", "catalogId": "games-toys-physics-play-brick-build-instructions", "label": "Brick Instructions", "verdict": "declined",
+      "palette": ["#7ec8f2", "#111111", "#d01012"], "materials": ["instruction page"],
+      "case": "Loses both: toy-assembly metaphor does not fit apparel.", "kept": "Numbered step sequence for checkout."
+    },
+    {
+      "id": "challenger-chaek", "kind": "challenger", "catalogId": "graphic-worlds-publishing-chaekgeori-reverse-perspective", "label": "Chaekgeori Shelves", "verdict": "declined",
+      "palette": ["#2f7a5f", "#c63b27", "#ece6d6"], "materials": ["silk pigment"],
+      "case": "Loses both: heritage painting, wrong audience.", "kept": "Shelf-as-grid inventory."
+    }
+  ],
+  "reroll": {"registers": ["safer", "bolder"]},
+  "buildPath": {"value": "code", "toggle": false},
+  "canon": true,
+  "canonCard": {
+    "kind": "canon", "label": "The category standard",
+    "thesis": "A clean product-grid store, executed impeccably.",
+    "palette": ["#ffffff", "#111827", "#2563eb"], "materials": ["clean grid", "product photography"],
+    "viewport": "Hero banner, category row, product grid.",
+    "risk": "Indistinguishable from competitors by design."
+  },
+  "steer": true
+}

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-21T00:00:00Z",
+  "title": "Design System: SUPERFAST Shop",
+  "extensions": {
+    "colorMeta": {
+      "field": { "role": "primary", "displayName": "Signal Orange Field", "canonical": "#ff4d00", "tonalRamp": ["#330f00", "#661f00", "#992e00", "#cc3d00", "#ff4d00", "#ff7a40", "#ffa77f", "#ffd3bf"] },
+      "on-field": { "role": "neutral", "displayName": "Field Ink", "canonical": "#0b0b0b", "tonalRamp": ["#0b0b0b", "#222222", "#3a3a3a", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"] },
+      "paper": { "role": "neutral", "displayName": "Tag Paper", "canonical": "#f7f4ec", "tonalRamp": ["#2b2a26", "#47453e", "#66635a", "#8a8679", "#aaa597", "#c8c3b4", "#e0dccf", "#f7f4ec"] },
+      "ink": { "role": "neutral", "displayName": "Print Ink", "canonical": "#0b0b0b", "tonalRamp": ["#0b0b0b", "#222222", "#3a3a3a", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"] },
+      "sticker": { "role": "secondary", "displayName": "Acid Price-Gun Sticker", "canonical": "#d7ff3a", "tonalRamp": ["#222e00", "#445c00", "#668a00", "#8db800", "#b4e000", "#d7ff3a", "#e6ff88", "#f3ffc4"] },
+      "on-sticker": { "role": "neutral", "displayName": "Sticker Ink", "canonical": "#0b0b0b", "tonalRamp": ["#0b0b0b", "#222222", "#3a3a3a", "#555555", "#777777", "#999999", "#bbbbbb", "#dddddd"] },
+      "muted": { "role": "neutral", "displayName": "Dye Brown Muted", "canonical": "#5b564c", "tonalRamp": ["#1c1a16", "#2f2c26", "#45413a", "#5b564c", "#77726a", "#948f86", "#b5b1aa", "#d8d5d0"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Shop name and page heroes, Big Shoulders Display 900 uppercase." },
+      "headline": { "displayName": "Headline", "purpose": "Section and page titles." },
+      "title": { "displayName": "Title", "purpose": "Tag titles and empty-state titles." },
+      "body": { "displayName": "Body", "purpose": "Archivo reading text." },
+      "label": { "displayName": "Label", "purpose": "Azeret Mono stamped metadata: form labels, woven labels, size cells, barcode captions." }
+    },
+    "shadows": [
+      { "name": "tag-lift", "value": "drop-shadow(0 10px 14px rgb(0 0 0 / 0.22))", "purpose": "Soft lift under every die-cut tag; applied as a filter on the .tag-wrap wrapper because clip-path would clip box-shadow." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Page recolour (0.3s), tag drop-in (0.7s)." },
+      { "name": "tape", "value": "38s linear infinite", "purpose": "Scrolling label tape; stopped under reduced motion." },
+      { "name": "swing", "value": "6s ease-in-out infinite", "purpose": "Gentle tag sway around a pivot above the tag; stopped under reduced motion." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Sticker Button",
+      "kind": "button",
+      "refersTo": "sticker",
+      "description": "Primary action: a tilted acid price-gun sticker.",
+      "html": "<button class=\"ds-btn-sticker\">SHOP NOW</button>",
+      "css": ".ds-btn-sticker { background: var(--sticker, #d7ff3a); color: var(--on-sticker, #0b0b0b); font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; text-transform: uppercase; line-height: 1; font-size: 1.25rem; padding: 12px 20px; border: 0; border-radius: 6px; transform: rotate(-2deg); cursor: pointer; transition: transform 0.2s; } .ds-btn-sticker:hover { transform: rotate(-2deg) translateY(-2px); } .ds-btn-sticker:active { transform: rotate(-2deg) translateY(1px); } .ds-btn-sticker:focus-visible { outline: 3px solid var(--ink, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Ink Button",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Default black woven-label button.",
+      "html": "<button class=\"ds-btn-ink\">Add to cart</button>",
+      "css": ".ds-btn-ink { background: var(--ink, #0b0b0b); color: var(--paper, #f7f4ec); font-weight: 700; padding: 12px 20px; border: 0; border-radius: 6px; cursor: pointer; transition: background 0.2s; } .ds-btn-ink:hover { background: rgb(11 11 11 / 0.85); } .ds-btn-ink:focus-visible { outline: 3px solid var(--ink, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Line Button",
+      "kind": "button",
+      "refersTo": "button-line",
+      "description": "Outline button on paper; fills with ink on hover.",
+      "html": "<button class=\"ds-btn-line\">Details</button>",
+      "css": ".ds-btn-line { background: transparent; color: var(--ink, #0b0b0b); font-weight: 700; padding: 12px 20px; border: 2px solid var(--ink, #0b0b0b); border-radius: 6px; cursor: pointer; transition: all 0.2s; } .ds-btn-line:hover { background: var(--ink, #0b0b0b); color: var(--paper, #f7f4ec); } .ds-btn-line:focus-visible { outline: 3px solid var(--ink, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "text-field",
+      "description": "Mono uppercase label over a 2px ink bordered field.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-field-label\" for=\"ds-e\">Email</label><input id=\"ds-e\" class=\"ds-field-input\" placeholder=\"you@mail.com\"></div>",
+      "css": ".ds-field-label { display: block; font-family: 'Azeret Mono', ui-monospace, monospace; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; color: var(--ink, #0b0b0b); } .ds-field-input { width: 100%; box-sizing: border-box; background: rgb(255 255 255 / 0.6); color: var(--ink, #0b0b0b); border: 2px solid var(--ink, #0b0b0b); border-radius: 6px; padding: 12px 14px; font-family: 'Archivo', system-ui, sans-serif; font-size: 1rem; } .ds-field-input::placeholder { color: var(--muted, #5b564c); opacity: 1; } .ds-field-input:focus { background: #fff; outline: 3px solid var(--ink, #0b0b0b); outline-offset: 3px; }"
+    },
+    {
+      "name": "Hang Tag",
+      "kind": "card",
+      "refersTo": "tag",
+      "description": "Die-cut paper swing tag, the surface for every card and panel.",
+      "html": "<div class=\"ds-tag-wrap\"><div class=\"ds-tag\"><h3 class=\"ds-tag-title\">Wide Leg Jeans</h3><p class=\"ds-tag-price\">$68</p></div></div>",
+      "css": ".ds-tag-wrap { filter: drop-shadow(0 10px 14px rgb(0 0 0 / 0.22)); display: inline-block; } .ds-tag { background: var(--paper, #f7f4ec); color: var(--ink, #0b0b0b); padding: 24px 32px; clip-path: polygon(18px 0, calc(100% - 18px) 0, 100% 18px, 100% 100%, 0 100%, 0 18px); } .ds-tag-title { font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; text-transform: uppercase; font-size: 2.25rem; line-height: 0.92; letter-spacing: -0.01em; margin: 0 0 8px; } .ds-tag-price { font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-weight: 900; font-size: 1.5rem; font-variant-numeric: tabular-nums; margin: 0; }"
+    },
+    {
+      "name": "Woven Label",
+      "kind": "chip",
+      "refersTo": "woven-label",
+      "description": "Black woven label for categories and status.",
+      "html": "<span class=\"ds-woven\">Jackets</span>",
+      "css": ".ds-woven { display: inline-block; background-color: var(--ink, #0b0b0b); color: var(--paper, #f7f4ec); font-family: 'Azeret Mono', ui-monospace, monospace; font-weight: 600; font-size: 0.7rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.3rem 0.6rem; background-image: repeating-linear-gradient(0deg, transparent 0 2px, rgb(255 255 255 / 0.05) 2px 3px); }"
+    },
+    {
+      "name": "Size Run",
+      "kind": "custom",
+      "refersTo": "size-cell",
+      "description": "Stamped size cells; selected is ink filled, sold-out is a dashed ghost cell.",
+      "html": "<div class=\"ds-run\"><button class=\"ds-cell\">XS</button><button class=\"ds-cell\">S</button><button class=\"ds-cell ds-cell-on\">M</button><button class=\"ds-cell\">L</button><button class=\"ds-cell ds-cell-out\" disabled>XL</button></div>",
+      "css": ".ds-run { display: flex; flex-wrap: wrap; gap: 6px; } .ds-cell { height: 44px; min-width: 44px; padding: 0 12px; display: flex; align-items: center; justify-content: center; background: transparent; color: var(--ink, #0b0b0b); font-family: 'Azeret Mono', ui-monospace, monospace; font-weight: 600; font-size: 1rem; text-transform: uppercase; border: 2px solid var(--ink, #0b0b0b); border-radius: 4px; cursor: pointer; transition: background-color 0.2s; } .ds-cell:hover { background: rgb(11 11 11 / 0.1); } .ds-cell:focus-visible { outline: 3px solid var(--ink, #0b0b0b); outline-offset: 3px; } .ds-cell-on { background: var(--ink, #0b0b0b); color: var(--paper, #f7f4ec); } .ds-cell-out { border-style: dashed; border-color: rgb(11 11 11 / 0.3); color: rgb(11 11 11 / 0.35); text-decoration: line-through; cursor: not-allowed; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Hang Tag",
+    "overview": "The shop is a garment tag. The whole page is a drenched field of one loud colour, and everything you read or press sits on it as a physical retail object: a die-cut paper swing tag with a punched hole and string, a price-gun sticker, a black woven label, a stamped size cell, a barcode, a dashed stitch rule. Cards, panels, forms and empty states are all tags; photographs are not the container for the interface.\n\nDensity is quick and phone-first: heavy condensed uppercase display type for names and prices, a plain grotesk for reading, a mono face for small stamped labels. There are no gradients and no offset block shadows. The only depth is the soft drop shadow that lifts a tag off the field, and a small tilt on stickers.\n\nThe field colour is the one runtime variable. The user can switch palettes in Settings and the entire shop recolours; paper, ink and the tag material never change.",
+    "keyCharacteristics": [
+      "One drenched field colour behind every page, with off-white paper tags and ink-black print on top.",
+      "One accent ink, the acid-yellow price-gun sticker, reserved for the primary action and price flags.",
+      "Condensed 900-weight uppercase display type; tabular numerals for money.",
+      "Die-cut clipped corners, punched hole, string; woven labels, stamped cells, barcodes and stitch rules as dividers.",
+      "Flat colour only: no gradients, no hard offset shadows."
+    ],
+    "rules": [
+      { "name": "The Role-Not-Hex Rule", "body": "Components consume field, paper, ink, sticker and their on- partners. A hard-coded hex in a component breaks every palette except the default.", "section": "colors" },
+      { "name": "The One Sticker Rule", "body": "The sticker colour marks the primary action or a price flag, one or two per view. Its rarity is what makes it read as a price-gun label.", "section": "colors" },
+      { "name": "The Pair Rule", "body": "Any new field or sticker colour ships with its readable partner (on-field, on-sticker) chosen by luminance; custom fields get this automatically via readableOn.", "section": "colors" },
+      { "name": "The Tabular Price Rule", "body": "Prices and counts use the .num utility (tabular numerals) so digits align in tags and carts.", "section": "typography" },
+      { "name": "The Three Voices Rule", "body": "Display for names and prices, Archivo for sentences, Azeret Mono for stamped metadata. Do not set sentences in display or mono.", "section": "typography" },
+      { "name": "The Wrapper Rule", "body": "A tag is always Tag (wrapper plus clipped surface). Never apply box-shadow to a clipped element.", "section": "elevation" },
+      { "name": "The No-Block-Shadow Rule", "body": "The system has no offset block shadows and no gradients. Hover feedback is a colour swap or a 2px lift, not a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do build every new surface as a Tag on the field: paper, ink text, clipped corners, wrapper drop shadow.",
+      "Do make the one primary action per view a Sticker button.",
+      "Do reference colour roles (bg-field, text-on-field, bg-paper, text-ink, bg-sticker) so all palettes and Custom work.",
+      "Do keep secondary text on paper at muted (6.9:1) and use on-field for anything directly on the field.",
+      "Do show sold-out and empty states as ghost cells that stay drawn.",
+      "Do respect data-motion=\"reduced\" and prefers-reduced-motion for any new animation."
+    ],
+    "donts": [
+      "Don't use gradients or offset block shadows.",
+      "Don't hard-code hex values in components; the palette changes at runtime.",
+      "Don't set body text on the field in ink or muted; light-field and dark-field palettes need on-field.",
+      "Don't make photo cards the container for interface; imagery sits inside a tag, never replaces it.",
+      "Don't set sentences in the display or mono face.",
+      "Don't put a box-shadow on a clipped tag; shadow the wrapper with drop-shadow."
+    ]
+  }
+}
